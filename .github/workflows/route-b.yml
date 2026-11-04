@@ -7,6 +7,9 @@ on:
       purchase_started_at:
         description: '購入ボタンを押した時刻（ISO 8601、例 2026-11-05T01:23:00+09:00）'
         required: true
+      baseline_balance:
+        description: '購入の前の買い手の残高（空なら開始時の残高）'
+        default: ''
 permissions:
   contents: write
 concurrency: route-b
@@ -24,6 +27,7 @@ jobs:
         env:
           NVM_BUYER_API_KEY: ${{ secrets.NVM_BUYER_API_KEY }}
           PURCHASE_STARTED_AT: ${{ inputs.purchase_started_at }}
+          BASELINE_BALANCE: ${{ inputs.baseline_balance }}
       - name: commit result
         if: always()
         run: |

@@ -21,11 +21,13 @@ const holder = payments.getAccountAddress();
 const balance = async () => BigInt((await payments.plans.getPlanBalance(PLAN_ID)).balance ?? 0);
 
 const startedAt = new Date();
-const baseline = await balance();
-const checks = [{ at: startedAt.toISOString(), balance: String(baseline) }];
-let creditedAt = null;
-let now = baseline;
-while (Date.now() - startedAt.getTime() < MAX_MS) {
+// 購入の前の残高。ワークフローを動かす前にクレジットが付いても見落とさないよう、分かっていれば入力で渡す
+const baseline = process.env.BASELINE_BALANCE ? BigInt(process.env.BASELINE_BALANCE) : await balance();
+const first = await balance();
+const checks = [{ at: startedAt.toISOString(), balance: String(first) }];
+let creditedAt = first > baseline ? startedAt : null;
+let now = first;
+while (!creditedAt && Date.now() - startedAt.getTime() < MAX_MS) {
   await new Promise((r) => setTimeout(r, POLL_MS));
   now = await balance();
   checks.push({ at: new Date().toISOString(), balance: String(now) });
