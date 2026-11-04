@@ -1,0 +1,32 @@
+name: route-b-card
+# 手で 1 回だけ動かす（定期実行はしない）。Nevermined の $1 プランのクレジットが反映されるまで 5 分おきに見て（最長 345 分）、
+# 反映したら実証1 のゲートウェイ経由で /api/jin/series を 1 回買い、runs/ に結果をコミットする
+on:
+  workflow_dispatch:
+    inputs:
+      purchase_started_at:
+        description: '購入ボタンを押した時刻（ISO 8601、例 2026-11-05T01:23:00+09:00）'
+        required: true
+permissions:
+  contents: write
+concurrency: route-b
+jobs:
+  wait-and-buy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - run: node scripts/route-b.mjs
+        env:
+          NVM_BUYER_API_KEY: ${{ secrets.NVM_BUYER_API_KEY }}
+          PURCHASE_STARTED_AT: ${{ inputs.purchase_started_at }}
+      - name: commit result
+        if: always()
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@users.noreply.github.com
+          git add runs/ && git commit -m "route B run" && git push || true

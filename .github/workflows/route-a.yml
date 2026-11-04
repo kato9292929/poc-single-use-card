@@ -1,0 +1,31 @@
+name: route-a-x402
+# 手で 1 回だけ動かす（定期実行はしない）。JIN の /api/jin/series を x402（Solana USDC $0.01）で 1 回買い、runs/ に結果をコミットする
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: '1 なら 402 を受けて要求を確かめるだけ（署名・支払いをしない）'
+        default: '0'
+permissions:
+  contents: write
+concurrency: route-a
+jobs:
+  buy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - run: node scripts/route-a.mjs
+        env:
+          BUYER_SOLANA_SECRET_KEY: ${{ secrets.BUYER_SOLANA_SECRET_KEY }}
+          DRY_RUN: ${{ inputs.dry_run }}
+      - name: commit result
+        if: always()
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@users.noreply.github.com
+          git add runs/ && git commit -m "route A run" && git push || true
