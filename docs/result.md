@@ -1,6 +1,6 @@
 # 実証3：単回利用カードと x402 の購入比較
 
-状態：**準備済み・未実施**（2026-11-04 時点）
+状態：**準備済み・未実施**（2026-11-06 時点）。経路 B は止めた（下記）
 
 同じデータ（Japan Inflation Nowcall の `/api/jin/series`）を、x402（USDC 直接）とカード（Revolut の使い捨てカード → Nevermined の $1 プラン）で 1 回ずつ買い、比べる。
 
@@ -17,14 +17,11 @@
 ## 手順
 
 - 経路A：Actions の `route-a-x402` を手で 1 回動かす（`scripts/route-a.mjs`）。Secrets の `BUYER_SOLANA_SECRET_KEY` で署名し、$0.01 を超える要求には署名しない。402 を受けた時刻から 200 までの時間、トランザクション署名、チェーン手数料（Solana の公開 RPC の `getTransaction`）、レスポンスの件数を `runs/` にコミットする
-- 経路B：
-  1. 人が Revolut の使い捨てカードで、上の購入ページから $1 プランを 1 回買い、購入ボタンを押した時刻を伝える（この依頼から返事までが「承認待ち」）
-  2. Actions の `route-b-card` を、その時刻を入れて動かす（`scripts/route-b.mjs`）。Secrets の `NVM_BUYER_API_KEY` で買い手の残高を 5 分おきに見て、増えたら実証1 のゲートウェイ経由で `/api/jin/series` を 1 回買う（最長 345 分）
-  3. 付与の時刻、データ取得の時刻、Nevermined の購入記録（売り手の取り分・Nevermined の手数料・Stripe 手数料の見積もりと実額）を `runs/` にコミットする
+- 経路B：**止めた（2026-11-06）**。売り手（x402）の Stripe アカウント `acct_1U0L1S3vSEcfGG4Q` が日本で使えなくなり、Nevermined の接続状態が `isValidated: false`・`needsReconnect: true` に変わった（2026-11-06 07:50 UTC、Nevermined の `GET /api/v1/fiat/stripe/connect/status`。11/02 は検証済みだった）。$1 プランはカードで買えなくなったため、Revolut の使い捨てカードで買う経路は実行できない。比較は経路 A の数字と、実証1 の本番の $1 購入の記録（付与まで約 5 時間、売り手の取り分 $0.65）で行う
 
 ## 結果
 
-| 項目 | A：x402 | B：使い捨てカード |
+| 項目 | A：x402 | B：使い捨てカード（止めた） |
 |---|---|---|
 | 実施日時 | | |
 | 購入完了までの時間（承認待ちを含む） | | |
