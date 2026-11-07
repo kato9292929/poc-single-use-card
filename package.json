@@ -2,13 +2,13 @@
   "name": "poc-single-use-card",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
-    "route-a": "node scripts/route-a.mjs",
-    "route-b": "node scripts/route-b.mjs"
+    "route-a": "node scripts/route-a.mjs"
   },
   "dependencies": {
-    "@nevermined-io/payments": "1.13.0",
     "@scure/base": "^2.4.0",
     "@solana/kit": "^5.5.1",
     "@x402/core": "2.28.0",
