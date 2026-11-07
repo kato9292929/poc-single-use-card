@@ -1,0 +1,30 @@
+{
+  "route": "A",
+  "url": "https://jin.x402jp.com/api/jin/series",
+  "startedAt": "2026-11-07T11:15:15.699Z",
+  "received402At": "2026-11-07T11:15:17.050Z",
+  "finishedAt": "2026-11-07T11:15:18.495Z",
+  "ms402to200": 1445,
+  "msTotal": 2796,
+  "status": 200,
+  "payer": "3HG2HYh5EyGR5BnL5UaHeNkz2qA1tdwFizSbGKmkrcgV",
+  "amountAtomic": "10000",
+  "amountUsd": 0.01,
+  "payTo": "4s8XQC2WzRfgH8Xiep7ybnCW11VKRCMwxQF6jknx3VPf",
+  "settle": {
+    "success": true,
+    "payer": "3HG2HYh5EyGR5BnL5UaHeNkz2qA1tdwFizSbGKmkrcgV",
+    "transaction": "5Zn4ii7GEMboAp5Bs9eAP5u77robC5RvzxpFMuYZpzDSoZW758LWq94pNyXwv2tXgWAJPMKLA58djeNAAYKCMJwV",
+    "network": "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp"
+  },
+  "chain": {
+    "signature": "5Zn4ii7GEMboAp5Bs9eAP5u77robC5RvzxpFMuYZpzDSoZW758LWq94pNyXwv2tXgWAJPMKLA58djeNAAYKCMJwV",
+    "slot": 466491889,
+    "blockTime": "2026-11-07T11:15:17.000Z",
+    "feeLamports": 10001,
+    "feeSol": 0.000010001,
+    "feePayer": "CjNFTjvBhbJJd2B5ePPMHRLx1ELZpa8dwQgGL727eKww",
+    "err": null
+  },
+  "items": 14
+}
