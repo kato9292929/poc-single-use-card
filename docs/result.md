@@ -21,17 +21,17 @@
 
 ## 結果
 
-x402 の実行：Actions `route-a-x402` #1（2026-11-07 11:15 UTC、成功）。記録は [`runs/route-a-2026-11-07T11-15-18-509Z.json`](../runs/route-a-2026-11-07T11-15-18-509Z.json)。トランザクションは [`5Zn4ii7G…AYKCMJwV`](https://solscan.io/tx/5Zn4ii7GEMboAp5Bs9eAP5u77robC5RvzxpFMuYZpzDSoZW758LWq94pNyXwv2tXgWAJPMKLA58djeNAAYKCMJwV)（slot 466491889）。
+x402 の実行：Actions `route-a-x402` #1（払ったウォレットは実証1 のゲートウェイが上流の支払いに使っているウォレット `3HG2HYh5EyGR5BnL5UaHeNkz2qA1tdwFizSbGKmkrcgV`。指示書の想定は約 $0.05 を入れた新しいウォレットだったが、秘密鍵の分かる別のウォレットが無かったため、このウォレットの鍵を `BUYER_SOLANA_SECRET_KEY` に入れた。実証3 のあと、この Secret は削除する）（2026-11-07 11:15 UTC、成功）。記録は [`runs/route-a-2026-11-07T11-15-18-509Z.json`](../runs/route-a-2026-11-07T11-15-18-509Z.json)。トランザクションは [`5Zn4ii7G…AYKCMJwV`](https://solscan.io/tx/5Zn4ii7GEMboAp5Bs9eAP5u77robC5RvzxpFMuYZpzDSoZW758LWq94pNyXwv2tXgWAJPMKLA58djeNAAYKCMJwV)（slot 466491889）。
 
 | 項目 | x402（USDC） | カードの前払い（実証1 の本番の記録） |
 |---|---|---|
 | 実施日時 | 2026-11-07 11:15:15 UTC | 2026-11-02（購入）、2026-11-03 00:01 UTC（初回の利用） |
 | 1 回の支払い | $0.01（1 リクエスト） | $1（100 クレジット＝100 リクエスト分） |
-| seller の受取 | **$0.01（100%）**。チェーン上の USDC の移動は買い手 `3HG2…rcgV` −0.01、seller `4s8X…3VPf` ＋0.01 | **$0.65（65%）**。Nevermined の手数料 $0.02 と、Stripe 手数料の見積もり $0.33 を先に引く（実際の Stripe 手数料は $0.039） |
+| seller の受取（1 回あたり） | **$0.01（100%）**。チェーン上の USDC の移動は買い手 `3HG2…rcgV` −0.01、seller `4s8X…3VPf` ＋0.01 | **$0.0065（65%）**。$1 のプラン全体では $0.65（Nevermined の手数料 $0.02 と、Stripe 手数料の見積もり $0.33 を先に引く。実際の Stripe 手数料は $0.039） |
 | 支払いから使えるまでの時間 | **1.4 秒**（402 を受けてから 200 まで 1,445 ms。最初のリクエストからは 2,796 ms） | **約 5 時間**（購入完了から、Nevermined がクレジットを付けた 17:19:33 UTC まで） |
 | チェーン手数料 | 10,001 lamports（0.000010001 SOL）。払ったのは facilitator `CjNF…eKww` で、買い手・seller の負担は 0 | — |
 | 成否 | 成功（HTTP 200、14 件） | 成功（JIN 1 回、HTTP 200） |
 | 失敗したときに残る記録 | Solana のトランザクション（誰でも署名で引ける） | カード明細と Nevermined の購入記録（それぞれの事業者の画面・API の中） |
 | エラー内容 | なし | なし（ただし購入画面の「Order complete」から付与まで約 5 時間、付与されない状態が続いた） |
 
-まとめ：同じ `/api/jin/series` 1 回分について、x402 は seller に 100% が 1.4 秒で届いた。カードの前払いは 100 回分をまとめて買っても seller に残るのは 65% で、使えるまで約 5 時間かかった。
+まとめ：同じ `/api/jin/series` 1 回分について、x402 は seller に $0.01（100%）が 1.4 秒で届いた。カードの前払いは 100 回分をまとめて買っても、1 回あたり seller に残るのは $0.0065（65%）で、使えるまで約 5 時間かかった。
